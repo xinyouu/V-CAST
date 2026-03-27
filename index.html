@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models">
+  <meta name="description" content="V-CAST is a training-free and plug-and-play token pruning framework for efficient long-context video inference.">
+  <meta name="keywords" content="V-CAST, VideoLLM, token pruning, Qwen3-VL, long video">
+  <meta name="author" content="Xinying Lin, Xuyang Liu, Yiyu Wang, Teng Ma, Wenqi Ren">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="V-CAST Project Page">
+  <meta property="og:title" content="V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models">
+  <meta property="og:description" content="Training-free and plug-and-play token pruning for efficient long-context video inference.">
+  <meta property="og:image" content="images/teaser.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="V-CAST Project Page">
+  <meta name="twitter:description" content="Training-free and plug-and-play token pruning for efficient long-context video inference.">
+  <meta name="twitter:image" content="images/teaser.png">
+
+  <title>V-CAST | Project Page</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <style>
+    body {
+      background: #ffffff;
+      color: #1f2937;
+      font-family: "Google Sans", "Noto Sans", "Castoro", sans-serif;
+    }
+
+    .vcast-hero {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .vcast-hero .hero-body {
+      padding-top: 1.9rem;
+      padding-bottom: 1.35rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .publication-title {
+      color: #1f2937;
+      line-height: 1.14;
+      margin-bottom: 0.35rem !important;
+      letter-spacing: -0.01em;
+      font-weight: 600 !important;
+      font-size: 1.95rem;
+    }
+
+    .pink-scissor {
+      color: #e4a8c0;
+      margin-right: 0.2em;
+      font-size: 0.9em;
+      vertical-align: 0.02em;
+      display: inline-block;
+      transform: rotate(-90deg);
+      transform-origin: center center;
+    }
+
+    .publication-authors,
+    .publication-affils,
+    .author-note {
+      color: #374151;
+      margin-bottom: 0;
+      font-weight: 400 !important;
+    }
+
+    .publication-authors {
+      font-size: 1rem;
+    }
+
+    .publication-affils {
+      font-size: 0.97rem;
+    }
+
+    .publication-authors a,
+    .publication-affils a,
+    .author-note a {
+      color: #5f7fae !important;
+      text-decoration: none !important;
+      font-weight: 400 !important;
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    .publication-authors a:hover,
+    .publication-affils a:hover,
+    .author-note a:hover {
+      color: #476792 !important;
+      opacity: 1;
+    }
+
+    a,
+    a:hover {
+      text-decoration: none !important;
+    }
+
+    a {
+      color: #5f7fae;
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    a:hover {
+      color: #476792;
+    }
+
+    .publication-links {
+      margin-top: 0.95rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .publication-links .button {
+      border-radius: 999px;
+      min-width: 126px;
+      font-weight: 600;
+      background: #222;
+      color: #fff;
+      border: none;
+    }
+
+    .publication-links .button.is-light {
+      background: #222;
+      color: #fff;
+      border: none;
+    }
+
+    .publication-links .button .icon,
+    .publication-links .button span {
+      color: #fff;
+    }
+
+    .publication-links .button:hover,
+    .publication-links .button.is-light:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    .author-note {
+      margin-top: 0.18rem;
+      font-size: 0.95rem;
+    }
+
+    .hero-tagline {
+      margin-top: 0.48rem;
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    .section.is-light {
+      background: #f8fafc;
+    }
+
+    .panel-card,
+    .exp-block,
+    .status-card,
+    .quick-card {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .panel-card,
+    .status-card,
+    .quick-card {
+      padding: 0;
+      height: 100%;
+    }
+
+    .exp-block {
+      padding: 0;
+      margin-bottom: 1.2rem;
+    }
+
+    .panel-card img,
+    .exp-image {
+      width: 100%;
+      border-radius: 0;
+      border: none;
+      margin-bottom: 0.75rem;
+      background: #fff;
+    }
+
+    .panel-caption {
+      margin-top: 0.3rem;
+      font-size: 0.97rem;
+      color: #374151;
+      line-height: 1.55;
+    }
+
+    .section-title {
+      margin-bottom: 1rem;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .metric-card {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      padding: 0.9rem 0.75rem;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-family: "Castoro", serif;
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.15;
+    }
+
+    .metric-label {
+      margin-top: 0.24rem;
+      color: #4b5563;
+      font-size: 0.84rem;
+      line-height: 1.42;
+    }
+
+    .contrib-content {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      color: #1f2937;
+      margin-top: 0.2rem;
+      text-align: justify;
+    }
+
+    .contrib-content p {
+      margin-bottom: 0.7rem;
+    }
+
+    .status-box,
+    .quick-box,
+    .bib-box {
+      border: 1px solid #e5e7eb;
+      background: #fff;
+      padding: 1rem;
+      height: 100%;
+    }
+
+    .status-tag {
+      display: inline-block;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      background: #111827;
+      margin-bottom: 0.65rem;
+    }
+
+    .status-tag.muted {
+      background: #6b7280;
+    }
+
+    .status-box h3,
+    .quick-box h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+    }
+
+    .status-box p,
+    .quick-note {
+      color: #4b5563;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1rem;
+      overflow-x: auto;
+      background: #111827;
+      color: #f8fafc;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .bib-box pre {
+      background: #fff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+
+    .container.is-max-desktop {
+      max-width: 960px;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .section {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .motivation-subgrid {
+      margin-top: 1rem;
+    }
+
+    .paper-table {
+      width: 100%;
+      font-size: 0.86rem;
+      border-collapse: collapse;
+    }
+
+    .paper-table th,
+    .paper-table td {
+      border: 1px solid #e5e7eb;
+      padding: 0.28rem 0.34rem;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.2;
+    }
+
+    .paper-table th:first-child,
+    .paper-table td:first-child {
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .paper-table th:not(:first-child),
+    .paper-table td:not(:first-child) {
+      text-align: center;
+    }
+
+    .paper-table .muted-row td {
+      color: #6b7280;
+      background: #fafafa;
+    }
+
+    .paper-table .group-row td {
+      font-weight: 700;
+      background: #f8fafc;
+      text-align: left;
+    }
+
+    .paper-table .highlight-row td {
+      background: #f3f4f6;
+      font-weight: 600;
+    }
+
+    .tiny-note {
+      font-size: 0.74em;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 0.6rem;
+    }
+
+    .result-table {
+      width: 100%;
+      font-size: 0.82rem;
+      border-collapse: collapse;
+    }
+
+    .result-table th,
+    .result-table td {
+      border: 1px solid #e5e7eb;
+      padding: 0.26rem 0.28rem;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.18;
+      white-space: nowrap;
+    }
+
+    .result-table th:first-child,
+    .result-table td:first-child {
+      text-align: left;
+    }
+
+    .result-table th:not(:first-child),
+    .result-table td:not(:first-child) {
+      text-align: center;
+    }
+
+    .result-table .baseline-row td {
+      color: #6b7280;
+      background: #fafafa;
+    }
+
+    .result-table .group-row td {
+      font-weight: 700;
+      background: #f8fafc;
+      text-align: left;
+    }
+
+    .result-table .frame-row td {
+      font-weight: 700;
+      background: #f8fafc;
+      text-align: center;
+    }
+
+    .result-table .ours-row td {
+      background: rgb(253, 245, 248);
+      font-weight: 400;
+    }
+
+    .result-table .ours-row td:first-child {
+      font-weight: 700;
+    }
+
+    .result-table .best {
+      font-weight: 700;
+    }
+
+    .result-table .second {
+      text-decoration: underline;
+      text-underline-offset: 0.12em;
+      text-decoration-thickness: 1px;
+    }
+
+    .efficiency-table {
+      font-size: 0.8rem;
+    }
+
+    .efficiency-table th,
+    .efficiency-table td {
+      padding: 0.34rem 0.38rem;
+      line-height: 1.24;
+    }
+
+    .efficiency-table thead tr:first-child th {
+      background: #f8fafc;
+      font-weight: 700;
+    }
+
+    .efficiency-table .units-row th {
+      color: #6b7280;
+      font-weight: 500;
+      font-size: 0.74rem;
+      background: #fcfcfd;
+    }
+
+    .efficiency-table th:first-child,
+    .efficiency-table td:first-child {
+      min-width: 178px;
+    }
+
+    .efficiency-table .baseline-row td {
+      background: #f8fafc;
+    }
+
+    .efficiency-table .ours-row td {
+      background: rgb(252, 242, 247);
+      font-weight: 700;
+    }
+
+    .efficiency-kicker {
+      margin: 0.2rem 0 0.55rem;
+      color: #4b5563;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .efficiency-title {
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    .efficiency-table .random-row td {
+      background: #fcfcfc;
+      border-top: 2px solid #d9dde3;
+      border-bottom: 2px solid #d9dde3;
+    }
+
+    .efficiency-figure {
+      margin-top: 1rem;
+    }
+
+    .efficiency-heading {
+      margin: 0 0 0.55rem;
+      color: #4b5563;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .efficiency-heading .exp-title {
+      display: inline;
+      margin-right: 0.35rem;
+    }
+
+    .efficiency-heading .efficiency-kicker {
+      display: inline;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .publication-title {
+        font-size: 1.58rem;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .efficiency-title {
+        white-space: normal;
+      }
+    }
+
+    @media screen and (max-width: 520px) {
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+  <main id="main-content">
+    <section class="hero vcast-hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop has-text-centered">
+          <h1 class="title is-1 publication-title"><span class="pink-scissor"><i class="fas fa-cut" aria-hidden="true"></i></span>V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://github.com/xinyouu" target="_blank">Xinying Lin</a><sup>1,2</sup>,</span>
+            <span class="author-block"><a href="https://github.com/xuyang-liu16" target="_blank">Xuyang Liu</a><sup>3,&dagger;</sup>,</span>
+            <span class="author-block"><a href="https://github.com/lern-to-write" target="_blank">Yiyu Wang</a><sup>4</sup>,</span>
+            <span class="author-block"><a href="https://github.com/MaTengSYSU" target="_blank">Teng Ma</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://rwenqi.github.io" target="_blank">Wenqi Ren</a><sup>1,2,&#9993;</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-affils" style="margin-top:0.15rem;">
+            <span class="author-block"><sup>1</sup> Shenzhen Campus of Sun Yat-sen University</span>
+            <span class="author-block"><sup>2</sup> Shenzhen Loop Area Institute</span><br>
+            <span class="author-block"><sup>3</sup> Sichuan University</span>
+            <span class="author-block"><sup>4</sup> EPIC Lab, Shanghai Jiao Tong University</span>
+          </div>
+
+          <p class="author-note"><sup>&dagger;</sup> Project leader: <a href="mailto:seanleo666@gmail.com">seanleo666@gmail.com</a>. <sup>&#9993;</sup> Corresponding author: <a href="mailto:renwq3@mail.sysu.edu.cn">renwq3@mail.sysu.edu.cn</a>.</p>
+
+          <div class="publication-links">
+            <a href="#" class="button is-light">
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Paper</span>
+            </a>
+            <a href="#" class="button is-light">
+              <span class="icon"><i class="ai ai-arxiv"></i></span>
+              <span>arXiv</span>
+            </a>
+            <a href="https://github.com/xinyouu/V-CAST" target="_blank" class="button is-light">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>Code</span>
+            </a>
+          </div>
+
+          <div class="hero-tagline">
+            <i>⚡ A training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference.</i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-variable is-5">
+          <div class="column is-12">
+            <div class="panel-card">
+              <img src="images/teaser.png" alt="V-CAST teaser" loading="lazy">
+              <p class="panel-caption"><strong>Highlight of V-CAST.</strong> Compared to existing token compression methods, V-CAST yields <strong>+1.5</strong> long-video gains, achieves <strong>98.2%</strong> original performance with a <strong>+1.9%</strong> margin, and reduces peak memory and latency to <strong>86.7%</strong> and <strong>86.4%</strong> of vanilla Qwen3-VL-8B-Instruct.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Contributions</h2>
+        <div class="contrib-content">
+          <p><strong>(1) Spatio-temporal Coverage Rethinking:</strong> We revisit visual token compression for VideoLLMs under tight token budgets and identify <em>spatio-temporal information coverage</em> as the core bottleneck, together with two failure modes in prior pipelines: discontinuous coverage and misaligned spatio-temporal information.</p>
+          <p><strong>(2) Video Curvature-Aware Spatio-Temporal Pruning:</strong> We propose <strong>V-CAST</strong>, a plug-and-play token pruning approach that couples per-frame token budgeting with content-driven token selection from the perspective of video spatio-temporal curvature, while preserving on-grid coordinates.</p>
+          <p><strong>(3) State-of-the-Art Performance and Efficiency:</strong> Experiments on long-video benchmarks show that V-CAST achieves the best accuracy-efficiency trade-off on Qwen3-VL-8B-Instruct, Qwen3-VL-32B-Instruct, Qwen3-VL-30B-A3B-Instruct, and LLaVA-OV/Video-7B, while reducing peak memory and end-to-end latency.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Motivation</h2>
+        <div class="columns is-variable is-5">
+          <div class="column is-12">
+            <div class="panel-card">
+              <img src="images/budget_analysis.png" alt="V-CAST budget analysis" loading="lazy">
+              <div class="content has-text-justified" style="margin-top: 0.3rem;">
+                <p>Existing token compression methods often underperform because they allocate budgets in ways that fail to preserve critical temporal turns and informative spatial evidence. This analysis motivates V-CAST to prioritize <strong>spatio-temporal coverage</strong> instead of relying on uniform or myopic compression under tight budgets.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="columns is-variable is-5 motivation-subgrid">
+          <div class="column is-7">
+            <div class="panel-card">
+              <div class="table-wrap">
+                <table class="table is-bordered is-fullwidth paper-table">
+                  <caption class="panel-caption">Comparisons of different spatial selection strategies at R=25%.</caption>
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Spatial Selection</th>
+                      <th rowspan="2">MVBench</th>
+                      <th rowspan="2">LongVideo<br>Bench</th>
+                      <th colspan="4">VideoMME</th>
+                    </tr>
+                    <tr>
+                      <th>All</th>
+                      <th>S</th>
+                      <th>M</th>
+                      <th>L</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="muted-row">
+                      <td>Qwen3-VL-8B-Instruct</td>
+                      <td>68.6</td>
+                      <td>60.3</td>
+                      <td>64.5</td>
+                      <td>76.0</td>
+                      <td>60.4</td>
+                      <td>57.0</td>
+                    </tr>
+                    <tr class="group-row">
+                      <td colspan="7">(a) Token Merging</td>
+                    </tr>
+                    <tr>
+                      <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                      <td>63.0</td>
+                      <td>56.8</td>
+                      <td>59.7</td>
+                      <td>71.4</td>
+                      <td>54.6</td>
+                      <td>53.1</td>
+                    </tr>
+                    <tr>
+                      <td>AvgPool (2x2)</td>
+                      <td>65.4</td>
+                      <td>58.6</td>
+                      <td>60.5</td>
+                      <td>72.3</td>
+                      <td>56.7</td>
+                      <td>52.4</td>
+                    </tr>
+                    <tr class="group-row">
+                      <td colspan="7">(b) Token Pruning</td>
+                    </tr>
+                    <tr>
+                      <td>Random (2x2)</td>
+                      <td>66.9</td>
+                      <td>57.8</td>
+                      <td>61.9</td>
+                      <td>73.6</td>
+                      <td>58.7</td>
+                      <td>53.4</td>
+                    </tr>
+                    <tr>
+                      <td>First (2x2)</td>
+                      <td>67.7</td>
+                      <td>57.7</td>
+                      <td>61.1</td>
+                      <td>72.2</td>
+                      <td>56.2</td>
+                      <td>55.0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="column is-5">
+            <div class="panel-card">
+              <img src="images/rope.png" alt="V-CAST rope analysis" loading="lazy">
+              <p class="panel-caption"><strong>Misaligned spatio-temporal information from token merging.</strong> Token merging drifts off the discrete <code>(t,h,w)</code> grid and weakens MRoPE bindings, while token pruning preserves on-grid coordinates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Method</h2>
+        <p class="content has-text-justified">V-CAST formulates token pruning for VideoLLMs as an optimal semantic-trajectory approximation problem under a fixed budget. It applies <strong>Curvature-Guided Temporal Allocation</strong> to assign per-frame budgets by tracking semantic transitions, and then performs <strong>Dual-Anchor Spatial Token Selection</strong> to retain diverse and salient tokens while preserving original on-grid coordinates.</p>
+
+        <div class="columns is-variable is-5">
+          <div class="column is-12">
+            <div class="panel-card">
+              <img src="images/overview.png" alt="V-CAST framework" loading="lazy">
+              <p class="panel-caption"><strong>Overall framework of V-CAST.</strong> The method first allocates temporal budget with curvature cues, then performs dual-anchor spatial token pruning using contextual diversity and feature activation anchors.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Main Results</h2>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-value">98.6%</div>
+            <div class="metric-label">original performance retained</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">+1.1%</div>
+            <div class="metric-label">over the second-best baseline</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">86.7%</div>
+            <div class="metric-label">peak memory of vanilla Qwen3-VL-8B</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">86.4%</div>
+            <div class="metric-label">total latency of vanilla Qwen3-VL-8B</div>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Performance comparison with other baselines on Qwen3-VL-8B-Instruct.</div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Methods</th>
+                  <th rowspan="2">MVBench</th>
+                  <th rowspan="2">LongVideo<br>Bench</th>
+                  <th rowspan="2">MLVU</th>
+                  <th colspan="4">VideoMME</th>
+                  <th colspan="2">Average</th>
+                </tr>
+                <tr>
+                  <th>Overall</th>
+                  <th>Short</th>
+                  <th>Medium</th>
+                  <th>Long</th>
+                  <th>Score</th>
+                  <th>%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="frame-row"><td colspan="10">Max Input Frames=64</td></tr>
+                <tr class="baseline-row">
+                  <td>Qwen3-VL-8B-Instruct</td>
+                  <td>69.2</td><td>62.8</td><td>68.9</td><td>66.9</td><td>78.8</td><td>66.2</td><td>55.8</td><td>67.0</td><td>100.0</td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>64.8</td><td>58.9</td><td>63.4</td><td>63.1</td><td>73.7</td><td>60.3</td><td>55.4</td><td>62.6</td><td>93.4</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td><span class="second">67.5</span></td><td>59.6</td><td>64.0</td><td><span class="second">64.9</span></td><td><span class="second">75.4</span></td><td><span class="best">63.4</span></td><td><span class="best">55.9</span></td><td><span class="second">64.0</span></td><td><span class="second">95.5</span></td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>66.8</td><td><span class="second">60.4</span></td><td><span class="second">65.0</span></td><td>62.3</td><td>73.9</td><td>60.7</td><td>52.2</td><td>63.6</td><td>94.9</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>64.8</td><td>58.9</td><td>63.4</td><td>62.7</td><td>74.4</td><td>60.6</td><td>53.2</td><td>62.5</td><td>93.3</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>-</td><td>-</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">68.4</span></td><td><span class="best">61.2</span></td><td><span class="best">65.4</span></td><td><span class="best">65.1</span></td><td><span class="best">76.8</span></td><td><span class="second">63.2</span></td><td>55.3</td><td><span class="best">65.0</span></td><td><span class="best">97.0</span></td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=15%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>62.0</td><td>57.7</td><td>61.4</td><td>60.4</td><td>70.3</td><td>58.4</td><td>52.6</td><td>60.4</td><td>90.1</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td>64.3</td><td>57.4</td><td>60.3</td><td><span class="second">62.9</span></td><td><span class="second">72.6</span></td><td><span class="second">61.3</span></td><td><span class="best">54.7</span></td><td>61.2</td><td>91.3</td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td><span class="second">64.9</span></td><td><span class="best">59.7</span></td><td><span class="second">63.3</span></td><td>60.5</td><td>72.2</td><td>57.2</td><td>52.1</td><td><span class="second">62.1</span></td><td><span class="second">92.7</span></td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>62.7</td><td>58.3</td><td>61.8</td><td>60.9</td><td>72.3</td><td>58.2</td><td>52.2</td><td>60.9</td><td>90.9</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>-</td><td>-</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">66.3</span></td><td><span class="second">59.6</span></td><td><span class="best">64.4</span></td><td><span class="best">63.9</span></td><td><span class="best">76.3</span></td><td><span class="best">61.4</span></td><td><span class="second">53.8</span></td><td><span class="best">63.6</span></td><td><span class="best">94.9</span></td>
+                </tr>
+                <tr class="frame-row"><td colspan="10">Max Input Frames=32</td></tr>
+                <tr class="baseline-row">
+                  <td>Qwen3-VL-8B-Instruct</td>
+                  <td>68.6</td><td>60.3</td><td>63.5</td><td>64.5</td><td>76.0</td><td>60.4</td><td>57.0</td><td>64.2</td><td>100.0</td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>62.2</td><td>56.7</td><td>60.8</td><td>60.1</td><td>69.6</td><td>56.7</td><td>54.2</td><td>60.0</td><td>93.5</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td>67.0</td><td>58.0</td><td>60.6</td><td><span class="second">62.4</span></td><td><span class="second">72.1</span></td><td>59.1</td><td><span class="best">56.1</span></td><td>62.0</td><td>96.6</td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>67.3</td><td><span class="second">58.7</span></td><td>60.7</td><td>60.5</td><td>72.0</td><td>56.8</td><td>52.7</td><td>61.8</td><td>96.3</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>63.0</td><td>56.8</td><td>61.2</td><td>59.7</td><td>71.4</td><td>54.6</td><td>53.1</td><td>60.2</td><td>93.8</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td><span class="second">67.5</span></td><td><span class="best">58.8</span></td><td><span class="second">61.7</span></td><td>62.3</td><td><span class="best">74.4</span></td><td>58.7</td><td>53.9</td><td><span class="second">62.6</span></td><td><span class="second">97.5</span></td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">67.9</span></td><td>58.2</td><td><span class="best">63.5</span></td><td><span class="best">63.5</span></td><td><span class="best">74.4</span></td><td><span class="best">60.2</span></td><td><span class="second">55.8</span></td><td><span class="best">63.3</span></td><td><span class="best">98.6</span></td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=15%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>60.1</td><td>56.2</td><td><span class="second">60.0</span></td><td>58.2</td><td>66.9</td><td>54.9</td><td>52.9</td><td>58.6</td><td>91.3</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td>64.2</td><td>56.0</td><td>57.7</td><td>59.6</td><td>68.9</td><td>56.7</td><td>53.3</td><td>59.4</td><td>92.5</td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>66.1</td><td>57.1</td><td>59.0</td><td>58.3</td><td>69.6</td><td>54.3</td><td>51.1</td><td>60.1</td><td>93.6</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>60.0</td><td>55.8</td><td>59.6</td><td>58.3</td><td>68.9</td><td>54.7</td><td>51.7</td><td>58.4</td><td>91.0</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td><span class="best">66.5</span></td><td><span class="best">57.8</span></td><td><span class="second">60.0</span></td><td><span class="second">61.4</span></td><td><span class="best">72.4</span></td><td><span class="second">57.6</span></td><td><span class="second">54.1</span></td><td><span class="second">61.4</span></td><td><span class="second">95.6</span></td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="second">66.2</span></td><td><span class="second">57.7</span></td><td><span class="best">60.1</span></td><td><span class="best">62.0</span></td><td><span class="second">71.9</span></td><td><span class="best">58.3</span></td><td><span class="best">55.9</span></td><td><span class="best">61.5</span></td><td><span class="best">95.8</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Performance comparison on the larger model Qwen3-VL-32B-Instruct.</div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Methods</th>
+                  <th rowspan="2">MVBench</th>
+                  <th rowspan="2">LongVideo<br>Bench</th>
+                  <th rowspan="2">MLVU</th>
+                  <th colspan="4">VideoMME</th>
+                  <th colspan="2">Average</th>
+                </tr>
+                <tr>
+                  <th>Overall</th>
+                  <th>Short</th>
+                  <th>Medium</th>
+                  <th>Long</th>
+                  <th>Score</th>
+                  <th>%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="baseline-row">
+                  <td>Qwen3-VL-32B-Instruct</td>
+                  <td>73.2</td><td>62.4</td><td>66.1</td><td>69.3</td><td>78.3</td><td>67.1</td><td>62.4</td><td>67.8</td><td>100.0</td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>62.9</td><td>60.0</td><td>62.2</td><td>64.8</td><td>72.8</td><td>63.1</td><td>58.6</td><td>62.5</td><td>92.2</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td>70.2</td><td>60.4</td><td><span class="best">64.9</span></td><td><span class="second">67.0</span></td><td><span class="second">75.6</span></td><td><span class="second">64.3</span></td><td><span class="best">61.2</span></td><td><span class="second">65.6</span></td><td><span class="second">96.8</span></td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td><span class="second">71.0</span></td><td><span class="second">60.9</span></td><td>64.5</td><td>65.1</td><td>75.1</td><td>62.6</td><td>57.7</td><td>65.4</td><td>96.5</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>62.3</td><td>60.2</td><td>63.2</td><td>64.9</td><td>74.2</td><td>61.2</td><td>59.1</td><td>62.6</td><td>92.3</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>-</td><td>-</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">71.8</span></td><td><span class="best">61.5</span></td><td><span class="second">64.7</span></td><td><span class="best">68.1</span></td><td><span class="best">77.7</span></td><td><span class="best">65.9</span></td><td><span class="second">60.8</span></td><td><span class="best">66.5</span></td><td><span class="best">98.1</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Performance comparison on the MoE-based model Qwen3-VL-30B-A3B-Instruct.</div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Methods</th>
+                  <th rowspan="2">MVBench</th>
+                  <th rowspan="2">LongVideo<br>Bench</th>
+                  <th rowspan="2">MLVU</th>
+                  <th colspan="4">VideoMME</th>
+                  <th rowspan="2">Average Score</th>
+                </tr>
+                <tr>
+                  <th>Overall</th>
+                  <th>Short</th>
+                  <th>Medium</th>
+                  <th>Long</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="baseline-row">
+                  <td>Qwen3-VL-30B-A3B-Instruct</td>
+                  <td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>-</td>
+                </tr>
+                <tr class="group-row"><td colspan="9">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>61.3</td><td>62.4</td><td>64.1</td><td>62.7</td><td>70.7</td><td>61.3</td><td>56.0</td><td>62.6</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td><span class="best">69.7</span></td><td><span class="second">65.5</span></td><td><span class="best">68.5</span></td><td><span class="second">68.1</span></td><td><span class="best">79.1</span></td><td><span class="best">68.0</span></td><td><span class="second">58.9</span></td><td><span class="second">68.0</span></td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>68.2</td><td>60.7</td><td>64.8</td><td>62.4</td><td>70.3</td><td>61.6</td><td>55.2</td><td>64.0</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>66.0</td><td>63.9</td><td>64.7</td><td>64.6</td><td>73.6</td><td><span class="second">63.9</span></td><td>56.2</td><td>64.8</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>OOM</td><td>-</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="second">69.2</span></td><td><span class="best">66.6</span></td><td><span class="second">68.2</span></td><td><span class="best">68.2</span></td><td><span class="second">78.9</span></td><td>65.9</td><td><span class="best">59.8</span></td><td><span class="best">68.1</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="panel-card">
+            <img src="images/frame_scaling.png" alt="V-CAST frame scaling" loading="lazy">
+            <p class="panel-caption"><strong>Consistent gains with more frames.</strong> Performance trends on LongVideoBench, MLVU, VideoMME (Long), and EgoSchema as input frames increase. V-CAST improves accuracy and scales to longer inputs, while some baselines show limited gains or OOM failures at larger frame counts.</p>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="efficiency-heading">
+            <span class="exp-title efficiency-title">Inference efficiency.</span>
+            <span class="efficiency-kicker">Qwen3-VL-8B-Instruct on VideoMME at <code>R=25%</code> with max input frames = <code>32</code>. Lower is better for latency and memory, while higher is better for throughput and performance.</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table efficiency-table">
+              <thead>
+                <tr>
+                  <th>Methods</th>
+                  <th>Prefilling</th>
+                  <th>LLM Generation</th>
+                  <th>Total Latency</th>
+                  <th>GPU Peak</th>
+                  <th>Throughput</th>
+                  <th>Performance</th>
+                </tr>
+                <tr class="units-row">
+                  <th></th>
+                  <th>Latency (s) ↓</th>
+                  <th>Latency (s) ↓</th>
+                  <th>Latency (s) ↓</th>
+                  <th>Memory (MB) ↓</th>
+                  <th>item/s ↑</th>
+                  <th>Score ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="baseline-row">
+                  <td>Qwen3-VL-8B-Instruct</td>
+                  <td>243.6</td>
+                  <td>280.9</td>
+                  <td>1440.4</td>
+                  <td>22478.0</td>
+                  <td>1.87</td>
+                  <td>64.5</td>
+                </tr>
+                <tr class="random-row">
+                  <td>Random</td>
+                  <td>116.9</td>
+                  <td>147.3</td>
+                  <td>1271.9</td>
+                  <td>19547.5</td>
+                  <td>2.12</td>
+                  <td>61.5</td>
+                </tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>155.6</td>
+                  <td>190.5</td>
+                  <td>1276.8</td>
+                  <td><span class="second">19974.7</span></td>
+                  <td>2.11</td>
+                  <td>60.1</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td><span class="second">119.0</span></td>
+                  <td>150.2</td>
+                  <td>1271.0</td>
+                  <td><span class="best">19547.5</span></td>
+                  <td>2.12</td>
+                  <td><span class="second">62.4</span></td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>120.6</td>
+                  <td>153.6</td>
+                  <td>1317.6</td>
+                  <td><span class="best">19547.5</span></td>
+                  <td>2.05</td>
+                  <td>60.5</td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>134.3</td>
+                  <td>160.8</td>
+                  <td><span class="second">1261.8</span></td>
+                  <td><span class="second">19974.7</span></td>
+                  <td><span class="second">2.14</span></td>
+                  <td>59.7</td>
+                </tr>
+                <tr>
+                  <td>FlashVID <span class="tiny-note">[ICLR'26]</span></td>
+                  <td>146.6</td>
+                  <td>175.0</td>
+                  <td>1308.7</td>
+                  <td>41363.6</td>
+                  <td>2.06</td>
+                  <td>62.3</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">118.8</span></td>
+                  <td><span class="best">149.9</span></td>
+                  <td><span class="best">1245.1</span></td>
+                  <td><span class="best">19547.5</span></td>
+                  <td><span class="best">2.17</span></td>
+                  <td><span class="best">63.5</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel-card efficiency-figure">
+            <img src="images/efficiency_llava.png" alt="V-CAST efficiency comparison" loading="lazy">
+            <p class="panel-caption"><strong>Efficiency comparison on LLaVA-OneVision-7B.</strong> We compare Vanilla, FastVID, VidCom<sup>2</sup>, and V-CAST on Prefill Latency, Total Latency, and Peak Memory.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Analysis</h2>
+
+        <div class="columns is-variable is-5">
+          <div class="column is-12">
+            <div class="panel-card">
+              <img src="images/frame_score_vis.png" alt="V-CAST frame budget allocation" loading="lazy">
+              <p class="panel-caption"><strong>Visualization of frame budget allocation.</strong> We compare Uniform allocation, Global Uniqueness, and Curvature-Aware allocation under <code>R=25%</code>. A higher curve indicates a larger per-frame token budget.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 section-title has-text-centered">Qualitative Results</h2>
+        <div class="columns is-variable is-5">
+          <div class="column is-12">
+            <div class="panel-card">
+              <img src="images/badcase.png" alt="V-CAST qualitative comparison" loading="lazy">
+              <p class="panel-caption"><strong>Qualitative comparison.</strong> V-CAST highlights task-critical moments and yields correct answers where baselines and even the vanilla model fail.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section is-light" id="citation">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Citation</h2>
+        <div class="bib-box">
+          <pre><code>@misc{lin2026vcast,
+  title={V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models},
+  author={Xinying Lin and Xuyang Liu and Yiyu Wang and Teng Ma and Wenqi Ren},
+  year={2026},
+  howpublished={\url{https://github.com/xinyouu/V-CAST}}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
