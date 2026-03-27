@@ -104,13 +104,6 @@ pip install --upgrade pip
 pip install -e .
 ```
 
-3. Set optional environment variables if needed:
-
-```bash
-export HF_ENDPOINT="https://hf-mirror.com"
-export HF_TOKEN="your_hf_token"
-```
-
 ---
 
 ## 🚀 Performance Evaluation
@@ -139,14 +132,6 @@ bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 | V-CAST core implementation | [`compressor/v_cast/modeling_qwen3_vl_v_cast.py`](./compressor/v_cast/modeling_qwen3_vl_v_cast.py) |
 | Qwen3-VL evaluation wrapper | [`lmms_eval/models/simple/qwen3_vl.py`](./lmms_eval/models/simple/qwen3_vl.py) |
 | Example script | [`examples/v_cast/inference_qwen3vl_v_cast_64.sh`](./examples/v_cast/inference_qwen3vl_v_cast_64.sh) |
-
-### Default Public Configuration
-
-- model: `Qwen/Qwen3-VL-8B-Instruct`
-- max input frames: `64`
-- retain ratio: `0.25`
-- temporal budgeting: `curvature -> softmax(temp=0.7)`
-- spatial score: `hybrid`
 
 ---
 
