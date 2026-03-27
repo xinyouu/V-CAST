@@ -1,19 +1,41 @@
 <div align="center">
 
-# ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
+<h1>
+  ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
+</h1>
 
-### [Xinying Lin](https://github.com/xinyouu)<sup>1,2</sup> · [Xuyang Liu](https://github.com/xuyang-liu16)<sup>3,&dagger;</sup> · [Yiyu Wang](https://github.com/lern-to-write)<sup>4</sup> · [Teng Ma](https://github.com/MaTengSYSU)<sup>1</sup> · [Wenqi Ren](https://rwenqi.github.io)<sup>1,2,✉</sup>
+<h3>
+  <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
+  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3,&dagger;</sup>,
+  <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
+  <a href="https://github.com/MaTengSYSU">Teng Ma</a><sup>1</sup>,
+  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2,✉</sup>
+</h3>
 
-<sup>1</sup> Shenzhen Campus of Sun Yat-sen University  
-<sup>2</sup> Shenzhen Loop Area Institute  
-<sup>3</sup> Sichuan University  
-<sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
+<p>
+  <sup>1</sup> Shenzhen Campus of Sun Yat-sen University
+  &nbsp;&nbsp;
+  <sup>2</sup> Shenzhen Loop Area Institute
+</p>
+<p>
+  <sup>3</sup> Sichuan University
+  &nbsp;&nbsp;
+  <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
+</p>
 
-Contact: `xinyinglin@slai.edu.cn`
+<p>
+  📩 Contact: <code>xinyinglin@slai.edu.cn</code>
+</p>
 
-[![Code](https://img.shields.io/badge/Code-GitHub-111111?style=for-the-badge&logo=github)](https://github.com/xinyouu/V-CAST)
-[![Homepage Branch](https://img.shields.io/badge/Homepage-branch-4c6ef5?style=for-the-badge)](https://github.com/xinyouu/V-CAST/tree/homepage)
-[![License](https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge)](./LICENSE)
+<p>
+  <a href="#"><img src="https://img.shields.io/badge/Paper-242424?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper"></a>
+  <a href="#"><img src="https://img.shields.io/badge/arXiv-242424?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
+  <a href="https://github.com/xinyouu/V-CAST"><img src="https://img.shields.io/badge/Code-242424?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
+</p>
+
+<p>
+  <i>⚡ A training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference.</i>
+</p>
 
 </div>
 
