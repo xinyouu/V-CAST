@@ -24,10 +24,6 @@
 </p>
 
 <p>
-  📩 Contact: <code>xinyinglin@slai.edu.cn</code>
-</p>
-
-<p>
   <a href="#"><img src="https://img.shields.io/badge/Paper-242424?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper"></a>
   <a href="#"><img src="https://img.shields.io/badge/arXiv-242424?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
   <a href="https://github.com/xinyouu/V-CAST"><img src="https://img.shields.io/badge/Code-242424?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
@@ -41,7 +37,14 @@
 
 <div align="center">
 
-[News](#-news) · [Highlights](#-highlights) · [✨ Overview](#-overview) · [🛠 Preparation](#-preparation) · [🚀 Performance-Evaluation](#-performance-evaluation) · [📌 Citation](#-citation) · [👍 Acknowledgment](#-acknowledgment) · [📩 Contact](#-contact)
+<a href="#-news">News</a> ·
+<a href="#-highlights">Highlights</a> ·
+<a href="#-overview">✨ Overview</a> ·
+<a href="#-preparation">🛠 Preparation</a> ·
+<a href="#-performance-evaluation">🚀 Performance-Evaluation</a> ·
+<a href="#-citation">📌 Citation</a> ·
+<a href="#-acknowledgment">👍 Acknowledgment</a> ·
+<span style="white-space: nowrap;"><a href="#-contact">📩 Contact</a></span>
 
 </div>
 
@@ -174,6 +177,4 @@ This project builds on and benefits from the open-source efforts of:
 
 ## 📩 Contact
 
-For questions about the project, please contact:
-
-- `xinyinglin@slai.edu.cn`
+`xinyinglin@slai.edu.cn`
