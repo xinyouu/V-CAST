@@ -1,6 +1,8 @@
 <div align="center">
 
-<h1>✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models</h1>
+<h1>
+  ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
+</h1>
 
 <h3>
   <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
@@ -27,7 +29,9 @@
   <a href="https://github.com/xinyouu/V-CAST"><img src="https://img.shields.io/badge/Code-242424?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
 </p>
 
-<p><i>⚡ A training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference.</i></p>
+<p>
+  <i>⚡ A training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference.</i>
+</p>
 
 </div>
 
@@ -37,7 +41,7 @@
 <a href="#-highlights">Highlights</a> ·
 <a href="#-overview">✨ Overview</a> ·
 <a href="#-preparation">🛠 Preparation</a> ·
-<a href="#-performance-evaluation">🚀 Performance Evaluation</a> ·
+<a href="#-performance-evaluation">🚀 Performance-Evaluation</a> ·
 <a href="#-citation">📌 Citation</a> ·
 <a href="#-acknowledgment">👍 Acknowledgment</a> ·
 <span style="white-space: nowrap;"><a href="#-contact">📩 Contact</a></span>
@@ -48,19 +52,19 @@
 
 ## 🔥 News
 
-- **`2026.03.28`** Released the project page on the `homepage` branch.
-- **`2026.03.28`** Refined the public README to better match the current project homepage and paper presentation.
-- **`2026.03.27`** Opened the public V-CAST repository.
-- **`Soon`** We plan to release cleaner public code for additional model families and evaluation paths.
+- **`2026.03.28`** Added a dedicated `homepage` branch for the project page.
+- **`2026.03.28`** Refined the public README and homepage to match the current paper presentation.
+- **`2026.03.27`** Released the public **Qwen3-VL + V-CAST + lmms_eval** evaluation path.
+- **`Soon`** Support for **LLaVA** and **Omni** will be released in follow-up updates.
 
 ---
 
 ## 🎯 Highlights
 
-- **Curvature-aware spatio-temporal pruning.** V-CAST allocates temporal budget according to video curvature and performs coordinate-preserving spatial pruning.
-- **Training-free and plug-and-play.** V-CAST can be integrated into VideoLLMs without retraining.
-- **Coverage-oriented compression.** V-CAST explicitly addresses discontinuous coverage and position drift caused by token merging.
-- **Strong efficiency-performance trade-off.** V-CAST preserves **98.6%** of original performance, surpasses the second-best baseline by **+1.1%** on average, and reduces peak memory and total latency to **86.7%** and **86.4%** of vanilla Qwen3-VL-8B-Instruct.
+- **Curvature-aware spatio-temporal pruning:** V-CAST allocates temporal budget according to video curvature and performs coordinate-preserving spatial pruning.
+- **Training-free and plug-and-play:** V-CAST can be integrated into VideoLLMs without retraining.
+- **Coverage-oriented compression:** V-CAST explicitly addresses discontinuous coverage and token-merging-induced position drift.
+- **Strong accuracy-efficiency trade-off:** V-CAST preserves **98.6%** of original performance, outperforms the second-best baseline by **+1.1%** on average, and reduces peak memory and total latency to **86.7%** and **86.4%** of vanilla Qwen3-VL-8B-Instruct.
 
 ---
 
@@ -70,14 +74,11 @@
   <img src="images/teaser.png" width="980" alt="V-CAST teaser">
 </p>
 
-> **TL;DR**
->
-> V-CAST revisits video token compression from the perspective of **spatio-temporal information coverage**. It combines **curvature-guided temporal allocation** with **coordinate-preserving spatial pruning**, enabling efficient long-context video inference without retraining.
+V-CAST is a training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference. It revisits token compression from the perspective of **spatio-temporal information coverage**, and combines:
 
-V-CAST is motivated by two key failure modes in prior compression pipelines:
-
-- **Discontinuous coverage**, where uniform or myopic compression misses semantic turns and key events.
-- **Misaligned spatio-temporal information**, where token merging drifts away from the original `(t, h, w)` grid and weakens positional bindings.
+- **Curvature-guided temporal allocation** to route more budget to semantic turns and event boundaries.
+- **Coordinate-preserving spatial pruning** to retain informative tokens without breaking the original `(t, h, w)` grid.
+- **Compatibility with VideoLLMs** through a clean pruning-based design that avoids token merging drift.
 
 <p align="center">
   <img src="images/overview.png" width="920" alt="V-CAST overview">
@@ -94,35 +95,43 @@ git clone https://github.com/xinyouu/V-CAST.git
 cd V-CAST
 ```
 
-2. Browse the project page:
+2. Create the environment:
 
-- The polished paper-style homepage is hosted from the `homepage` branch.
-- The current `main` branch focuses on the public project overview and figures.
-
-3. Stay tuned for follow-up public releases:
-
-- cleaner evaluation scripts
-- model-specific integration paths
-- additional released baselines
+```bash
+conda create -n vcast python=3.10 -y
+conda activate vcast
+pip install --upgrade pip
+pip install -e .
+```
 
 ---
 
 ## 🚀 Performance Evaluation
 
-The current public presentation centers on the evaluation setting reported in the paper:
+The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default.
 
-- model family: `Qwen3-VL`
-- representative setup: `Qwen3-VL-8B-Instruct`
-- evaluation targets: `mlvu_dev`, `mvbench`, `videomme`, `egoschema`, `longvideobench_val_v`
+### Quick Start
 
-The main findings highlighted in this release are:
+```bash
+bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
+```
 
-- **98.6%** original performance retention under aggressive compression
-- **+1.1%** average gain over the second-best baseline
-- **86.7%** peak memory of vanilla Qwen3-VL-8B-Instruct
-- **86.4%** total latency of vanilla Qwen3-VL-8B-Instruct
+### Current Public Evaluation Targets
 
-For the latest visual presentation of results and analysis, please refer to the project homepage on the `homepage` branch.
+- `mlvu_dev`
+- `mvbench`
+- `videomme`
+- `egoschema`
+- `longvideobench_val_v`
+
+### Core Public Paths
+
+| Component | Path |
+| --- | --- |
+| V-CAST wrapper | [`compressor/v_cast/main.py`](./compressor/v_cast/main.py) |
+| V-CAST core implementation | [`compressor/v_cast/modeling_qwen3_vl_v_cast.py`](./compressor/v_cast/modeling_qwen3_vl_v_cast.py) |
+| Qwen3-VL evaluation wrapper | [`lmms_eval/models/simple/qwen3_vl.py`](./lmms_eval/models/simple/qwen3_vl.py) |
+| Example script | [`examples/v_cast/inference_qwen3vl_v_cast_64.sh`](./examples/v_cast/inference_qwen3vl_v_cast_64.sh) |
 
 ---
 
@@ -153,4 +162,4 @@ This project builds on and benefits from the open-source efforts of:
 
 ## 📩 Contact
 
-<span style="white-space: nowrap;"><code>xinyinglin@slai.edu.cn</code></span>
+`xinyinglin@slai.edu.cn`
