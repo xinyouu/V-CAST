@@ -23,43 +23,27 @@
   <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
 </p>
 
-<p>
-  <a href="#"><img src="https://img.shields.io/badge/Paper-242424?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper"></a>
-  <a href="#"><img src="https://img.shields.io/badge/arXiv-242424?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv"></a>
-  <a href="https://github.com/xinyouu/V-CAST"><img src="https://img.shields.io/badge/Code-242424?style=for-the-badge&logo=github&logoColor=white" alt="Code"></a>
-</p>
 
 <p>
-  <i>⚡ A training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference.</i>
+  <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
 </p>
 
 </div>
 
 <div align="center">
-
-<a href="#-news">News</a> ·
-<a href="#-highlights">Highlights</a> ·
-<a href="#-overview">✨ Overview</a> ·
-<a href="#-preparation">🛠 Preparation</a> ·
-<a href="#-performance-evaluation">🚀 Performance-Evaluation</a> ·
-<a href="#-citation">📌 Citation</a> ·
-<a href="#-acknowledgment">👍 Acknowledgment</a> ·
-<span style="white-space: nowrap;"><a href="#-contact">📩 Contact</a></span>
-
 </div>
 
 ---
 
 ## 🔥 News
 
-- **`2026.03.28`** Added a dedicated `homepage` branch for the project page.
-- **`2026.03.28`** Refined the public README and homepage to match the current paper presentation.
-- **`2026.03.27`** Released the public **Qwen3-VL + V-CAST + lmms_eval** evaluation path.
-- **`Soon`** Support for **LLaVA** and **Omni** will be released in follow-up updates.
-
+- **`2026.03.26`** We opened the V-CAST repository.
 ---
 
 ## 🎯 Highlights
+<p align="center">
+  <img src="images/teaser.png" width="980" alt="V-CAST teaser">
+</p>
 
 - **Curvature-aware spatio-temporal pruning:** V-CAST allocates temporal budget according to video curvature and performs coordinate-preserving spatial pruning.
 - **Training-free and plug-and-play:** V-CAST can be integrated into VideoLLMs without retraining.
@@ -69,10 +53,6 @@
 ---
 
 ## ✨ Overview
-
-<p align="center">
-  <img src="images/teaser.png" width="980" alt="V-CAST teaser">
-</p>
 
 V-CAST is a training-free and plug-and-play curvature-aware spatio-temporal pruning framework for efficient long-context video inference. It revisits token compression from the perspective of **spatio-temporal information coverage**, and combines:
 
@@ -150,16 +130,11 @@ If you find this repository useful, please cite:
 
 ---
 
+
 ## 👍 Acknowledgment
-
-This project builds on and benefits from the open-source efforts of:
-
-- Qwen3-VL
-- LLaVA
-- lmms-eval
+We extend our gratitude to the open-source efforts of [LLaVA-OneVision](https://github.com/LLaVA-VL/LLaVA-NeXT) and [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL).
 
 ---
 
 ## 📩 Contact
-
-`xinyinglin@slai.edu.cn`
+For any question about our paper or code, please email `xinyinglin@slai.edu.cn`.
