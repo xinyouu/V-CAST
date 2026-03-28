@@ -22,7 +22,7 @@
 
   <title>V-CAST | Project Page</title>
 
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="icon" type="image/png" href="static/images/favicon.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
@@ -985,6 +985,132 @@
                 <tr class="ours-row">
                   <td>V-CAST <span class="tiny-note">[Ours]</span></td>
                   <td><span class="second">69.2</span></td><td><span class="best">66.6</span></td><td><span class="second">68.2</span></td><td><span class="best">68.2</span></td><td><span class="second">78.9</span></td><td>65.9</td><td><span class="best">59.8</span></td><td><span class="best">68.1</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Performance comparison on LLaVA-OV-7B.</div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Methods</th>
+                  <th rowspan="2">MVBench</th>
+                  <th rowspan="2">LongVideo<br>Bench</th>
+                  <th rowspan="2">MLVU</th>
+                  <th colspan="4">VideoMME</th>
+                  <th colspan="2">Average</th>
+                </tr>
+                <tr>
+                  <th>Overall</th>
+                  <th>Short</th>
+                  <th>Medium</th>
+                  <th>Long</th>
+                  <th>Score</th>
+                  <th>%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="baseline-row">
+                  <td>LLaVA-OV-7B</td>
+                  <td>58.3</td><td>56.6</td><td>63.1</td><td>58.4</td><td>69.9</td><td>56.7</td><td>48.8</td><td>59.1</td><td>100.0</td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>FastV <span class="tiny-note">[ECCV'24]</span></td>
+                  <td>55.5</td><td>53.3</td><td>59.6</td><td>55.3</td><td>65.0</td><td>53.8</td><td>47.0</td><td>55.9</td><td>94.6</td>
+                </tr>
+                <tr>
+                  <td>PDrop <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>55.3</td><td>51.3</td><td>57.1</td><td>55.5</td><td>64.7</td><td>53.1</td><td>48.7</td><td>54.8</td><td>92.7</td>
+                </tr>
+                <tr>
+                  <td>SparseVLM <span class="tiny-note">[ICML'25]</span></td>
+                  <td>56.4</td><td>53.9</td><td>60.7</td><td>57.3</td><td>68.4</td><td>55.2</td><td>48.1</td><td>57.1</td><td>96.6</td>
+                </tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>56.9</td><td>56.0</td><td><span class="second">62.9</span></td><td>58.0</td><td>68.9</td><td><span class="second">57.4</span></td><td>47.6</td><td><span class="second">58.5</span></td><td><span class="second">99.0</span></td>
+                </tr>
+                <tr>
+                  <td>PruneVid <span class="tiny-note">[ACL'25]</span></td>
+                  <td>55.7</td><td>55.1</td><td><span class="best">63.4</span></td><td>57.0</td><td>68.8</td><td>54.4</td><td>47.7</td><td>57.8</td><td>97.8</td>
+                </tr>
+                <tr>
+                  <td>FrameFusion <span class="tiny-note">[ICCV'25]</span></td>
+                  <td>56.0</td><td>54.8</td><td>61.7</td><td>57.5</td><td>68.2</td><td>55.7</td><td>48.6</td><td>57.5</td><td>97.3</td>
+                </tr>
+                <tr>
+                  <td>FastVID <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td>56.5</td><td><span class="second">56.3</span></td><td>60.9</td><td>58.3</td><td><span class="second">69.4</span></td><td><span class="best">58.2</span></td><td>47.2</td><td>58.0</td><td>98.1</td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td><span class="second">57.0</span></td><td>55.4</td><td>62.8</td><td><span class="second">58.4</span></td><td>69.3</td><td>56.3</td><td><span class="best">49.4</span></td><td>58.4</td><td>98.8</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="best">57.4</span></td><td><span class="best">56.4</span></td><td><span class="second">62.9</span></td><td><span class="best">58.6</span></td><td><span class="best">70.7</span></td><td>56.0</td><td><span class="second">49.1</span></td><td><span class="best">58.8</span></td><td><span class="best">99.5</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Performance comparison on LLaVA-Video-7B.</div>
+          <div class="table-wrap">
+            <table class="table is-bordered is-fullwidth result-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Methods</th>
+                  <th rowspan="2">MVBench</th>
+                  <th rowspan="2">LongVideo<br>Bench</th>
+                  <th rowspan="2">MLVU</th>
+                  <th colspan="4">VideoMME</th>
+                  <th colspan="2">Average</th>
+                </tr>
+                <tr>
+                  <th>Overall</th>
+                  <th>Short</th>
+                  <th>Medium</th>
+                  <th>Long</th>
+                  <th>Score</th>
+                  <th>%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="baseline-row">
+                  <td>LLaVA-Video-7B</td>
+                  <td>60.4</td><td>58.9</td><td>67.3</td><td>64.4</td><td>77.3</td><td>62.4</td><td>53.4</td><td>62.8</td><td>100.0</td>
+                </tr>
+                <tr class="group-row"><td colspan="10">Retention Ratio=25%</td></tr>
+                <tr>
+                  <td>FastV <span class="tiny-note">[ECCV'24]</span></td>
+                  <td>52.1</td><td>54.8</td><td>57.8</td><td>58.6</td><td>68.7</td><td>58.4</td><td>48.7</td><td>55.8</td><td>88.9</td>
+                </tr>
+                <tr>
+                  <td>SparseVLM <span class="tiny-note">[ICML'25]</span></td>
+                  <td>55.4</td><td>54.2</td><td>58.9</td><td>60.1</td><td>71.1</td><td>59.1</td><td>50.1</td><td>57.2</td><td>91.1</td>
+                </tr>
+                <tr>
+                  <td>VisionZip <span class="tiny-note">[CVPR'25]</span></td>
+                  <td>57.9</td><td>56.3</td><td><span class="best">62.6</span></td><td>62.5</td><td>73.6</td><td><span class="best">62.3</span></td><td>51.9</td><td><span class="second">59.8</span></td><td><span class="second">95.2</span></td>
+                </tr>
+                <tr>
+                  <td>HoliTom <span class="tiny-note">[NeurIPS'25]</span></td>
+                  <td><span class="best">58.4</span></td><td><span class="second">57.1</span></td><td>60.5</td><td><span class="best">63.0</span></td><td><span class="best">74.6</span></td><td><span class="best">62.3</span></td><td><span class="second">52.1</span></td><td><span class="second">59.8</span></td><td><span class="second">95.2</span></td>
+                </tr>
+                <tr>
+                  <td>VidCom<sup>2</sup> <span class="tiny-note">[EMNLP'25]</span></td>
+                  <td>57.0</td><td><span class="second">57.1</span></td><td>58.7</td><td>61.7</td><td>73.0</td><td><span class="second">61.7</span></td><td>50.0</td><td>58.6</td><td>93.4</td>
+                </tr>
+                <tr class="ours-row">
+                  <td>V-CAST <span class="tiny-note">[Ours]</span></td>
+                  <td><span class="second">58.0</span></td><td><span class="best">57.3</span></td><td><span class="second">61.6</span></td><td><span class="second">62.7</span></td><td><span class="second">74.0</span></td><td>61.2</td><td><span class="best">52.4</span></td><td><span class="best">59.9</span></td><td><span class="best">95.4</span></td>
                 </tr>
               </tbody>
             </table>
