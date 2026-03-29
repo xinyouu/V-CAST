@@ -1,0 +1,387 @@
+import os
+import re
+import time
+from typing import List, Optional, Tuple, Union
+
+import numpy as np
+import torch
+from loguru import logger as eval_logger
+from PIL import Image
+from tqdm import tqdm
+
+from lmms_eval import utils
+from lmms_eval.api.instance import Instance
+from lmms_eval.api.registry import register_model
+from lmms_eval.models.model_utils.gen_metrics import log_metrics
+from lmms_eval.models.model_utils.reasoning_model_utils import (
+    parse_reasoning_model_answer,
+)
+from lmms_eval.models.simple.qwen3_vl import Qwen3_VL as Qwen3_VLSimple
+from lmms_eval.protocol import ChatMessages
+
+try:
+    from qwen_vl_utils import process_vision_info
+except ImportError:
+    eval_logger.warning("Failed to import qwen_vl_utils; Please install it via `pip install qwen-vl-utils`")
+
+try:
+    from decord import VideoReader, cpu
+except ImportError:
+    VideoReader = None
+    cpu = None
+
+
+def _get_video_total_frames(video_item):
+    if VideoReader is None:
+        return None
+    video_path = None
+    if isinstance(video_item, str):
+        video_path = video_item
+    elif isinstance(video_item, dict):
+        for key in ("video_path", "path", "video", "url"):
+            value = video_item.get(key)
+            if isinstance(value, str):
+                video_path = value
+                break
+    if not video_path or not os.path.exists(video_path):
+        return None
+    try:
+        return len(VideoReader(video_path, ctx=cpu(0)))
+    except Exception:
+        return None
+
+
+def _format_efficiency_table(rows, title="Efficiency Analysis"):
+    headers = ("Metric", "Value")
+    col_widths = [
+        max(len(headers[0]), max(len(row[0]) for row in rows)),
+        max(len(headers[1]), max(len(row[1]) for row in rows)),
+    ]
+    border = f"+{'-' * (col_widths[0] + 2)}+{'-' * (col_widths[1] + 2)}+"
+    header_line = f"| {headers[0]:<{col_widths[0]}} | {headers[1]:<{col_widths[1]}} |"
+    lines = [title, border, header_line, border]
+    for metric, value in rows:
+        lines.append(f"| {metric:<{col_widths[0]}} | {value:<{col_widths[1]}} |")
+    lines.append(border)
+    return "\n".join(lines)
+
+
+def _extract_qid_videoid(doc):
+    if not isinstance(doc, dict):
+        return "na", "na"
+    qid = (
+        doc.get("question_id")
+        or doc.get("qid")
+        or doc.get("id")
+        or doc.get("doc_id")
+        or "na"
+    )
+    vid = (
+        doc.get("videoID")
+        or doc.get("video_id")
+        or doc.get("video")
+        or doc.get("video_name")
+        or doc.get("video_uid")
+        or "na"
+    )
+    return str(qid), str(vid)
+
+
+@register_model("qwen3_vl_chat")
+class Qwen3_VL(Qwen3_VLSimple):
+    is_simple = False
+
+    def generate_until(self, requests: List[Instance]) -> List[str]:
+        res = []
+        wall_start = time.time()
+        total_prefill_ms = 0.0
+        total_decode_ms = 0.0
+        if not hasattr(self, "timing_llm_prefill_ms"):
+            self.timing_llm_prefill_ms = 0.0
+        print_per_sample_timing = os.environ.get("QWEN3VL_PRINT_TIMING_PER_SAMPLE", "0") == "1"
+        print_model_efficiency = os.environ.get("QWEN3VL_PRINT_MODEL_EFFICIENCY", "0") == "1"
+        if not hasattr(self, "timing_total_prefill_ms"):
+            self.timing_total_prefill_ms = 0.0
+        if not hasattr(self, "timing_total_decode_ms"):
+            self.timing_total_decode_ms = 0.0
+        # Ensure metrics exist for logging
+
+        # A dummy collate here to sort by doc id
+        def _collate(x):
+            return x[0], x[0]
+
+        # we group requests by their generation_kwargs,
+        # so that we don't try to execute e.g. greedy sampling and temp=0.8 sampling
+        # in the same batch.
+        re_ords = utils.Collator([reg.args for reg in requests], _collate, group_fn=lambda x: x[2], grouping=True)
+        chunks = re_ords.get_batched(n=self.batch_size, batch_fn=None)
+        num_iters = len(requests) // self.batch_size if len(requests) % self.batch_size == 0 else len(requests) // self.batch_size + 1
+        pbar = tqdm(total=num_iters, disable=(self.rank != 0), desc="Model Responding")
+        e2e_latency = 0
+        total_tokens = 0
+        for chunk in chunks:
+            ctx, doc_to_messages, all_gen_kwargs, doc_id, task, split = zip(*chunk)
+            # Expose current sample ids to compressor logs (batch_size=1 in our eval scripts).
+            try:
+                sample_doc = self.task_dict[task[0]][split[0]][doc_id[0]]
+                qid, vid = _extract_qid_videoid(sample_doc)
+                os.environ["QWEN3VL_CUR_QUESTION_ID"] = qid
+                os.environ["QWEN3VL_CUR_VIDEO_ID"] = vid
+            except Exception:
+                os.environ["QWEN3VL_CUR_QUESTION_ID"] = str(doc_id[0]) if len(doc_id) > 0 else "na"
+                os.environ["QWEN3VL_CUR_VIDEO_ID"] = "na"
+
+            chat_messages = [doc_to_messages[idx](self.task_dict[task][split][ids]) for idx, (ids, task, split) in enumerate(zip(doc_id, task, split))]
+            chat_messages: List[ChatMessages] = [ChatMessages(**{"messages": message}) for message in chat_messages]
+            visuals = []
+            videos = []
+            for messages in chat_messages:
+                visual, video, _ = messages.extract_media()
+                visuals.append(visual)
+                videos.append(video)
+            visuals = self.flatten(visuals)
+            videos = self.flatten(videos)
+            gen_kwargs = all_gen_kwargs[0]
+
+            capped_max_num_frames = self.max_num_frames
+            if videos:
+                total_frames = [frames for frames in (_get_video_total_frames(v) for v in videos) if frames is not None]
+                if total_frames:
+                    capped_max_num_frames = min(self.max_num_frames, min(total_frames))
+                    if capped_max_num_frames < self.max_num_frames:
+                        eval_logger.debug(
+                            f"Capping max_num_frames from {self.max_num_frames} to {capped_max_num_frames} based on video length."
+                        )
+
+            # Apply chat template
+            video_kwargs = {
+                "max_pixels": self.max_pixels,
+                "min_pixels": self.min_pixels,
+            }
+            if self.fps is not None:
+                video_kwargs["fps"] = self.fps
+                # limit the number of frames in case fps is set
+                video_kwargs["max_frames"] = capped_max_num_frames
+            else:
+                video_kwargs["nframes"] = capped_max_num_frames
+            batched_messages = [chat_message.to_hf_messages(video_kwargs=video_kwargs) for chat_message in chat_messages]
+            texts = self.processor.apply_chat_template(batched_messages, tokenize=False, add_generation_prompt=True)
+            try:
+                image_inputs, video_inputs, video_kwargs_qwen = process_vision_info(
+                    batched_messages,
+                    return_video_kwargs=True,
+                    image_patch_size=16,
+                    return_video_metadata=True,
+                )
+            except ValueError as exc:
+                msg = str(exc)
+                match = re.search(r"nframes should in interval \\[2, (\\d+)\\], but got (\\d+)", msg)
+                if match:
+                    total_frames = int(match.group(1))
+                    safe_total = total_frames - 1 if total_frames > 2 else total_frames
+                    capped_max_num_frames = min(capped_max_num_frames, safe_total)
+                    if self.fps is not None:
+                        video_kwargs["max_frames"] = capped_max_num_frames
+                    else:
+                        video_kwargs["nframes"] = capped_max_num_frames
+                    batched_messages = [chat_message.to_hf_messages(video_kwargs=video_kwargs) for chat_message in chat_messages]
+                    image_inputs, video_inputs, video_kwargs_qwen = process_vision_info(
+                        batched_messages,
+                        return_video_kwargs=True,
+                        image_patch_size=16,
+                        return_video_metadata=True,
+                    )
+                else:
+                    raise
+            video_kwargs = {**video_kwargs, **video_kwargs_qwen}
+
+            video_metadatas = None
+            if video_inputs is not None:
+                video_inputs, video_metadatas = zip(*video_inputs)
+                video_inputs, video_metadatas = list(video_inputs), list(video_metadatas)
+
+            if self.batch_size > 1:
+                inputs = self.processor(text=texts, images=image_inputs, videos=video_inputs, video_metadata=video_metadatas, **video_kwargs, do_resize=False, padding=True, padding_side="left", return_tensors="pt")
+            else:
+                inputs = self.processor(text=texts, images=image_inputs, videos=video_inputs, video_metadata=video_metadatas, **video_kwargs, do_resize=False, return_tensors="pt")
+
+            if self.device_map == "auto":
+                inputs = inputs.to("cuda")
+            else:
+                inputs = inputs.to(self.device)
+
+            # Set default generation kwargs
+            default_gen_kwargs = {
+                "max_new_tokens": 128,
+                "temperature": 0.0,  # Set to 0 for greedy default
+                "top_p": None,
+                "num_beams": 1,
+            }
+            # Update with provided kwargs
+            current_gen_kwargs = {**default_gen_kwargs, **gen_kwargs}
+            pad_token_id = self.tokenizer.pad_token_id
+
+            if current_gen_kwargs["temperature"] > 0:
+                current_gen_kwargs["do_sample"] = True
+            else:
+                current_gen_kwargs["do_sample"] = False
+                current_gen_kwargs["temperature"] = None
+                current_gen_kwargs["top_p"] = None
+                current_gen_kwargs["top_k"] = None
+
+            start_time = time.time()
+            if torch.cuda.is_available():
+                torch.cuda.reset_peak_memory_stats()
+                gen_start_event = torch.cuda.Event(enable_timing=True)
+                gen_end_event = torch.cuda.Event(enable_timing=True)
+                torch.cuda.synchronize()
+                gen_start_event.record()
+
+            prefill_ms = 0.0
+            decode_ms = 0.0
+            forward_calls = 0
+            llm_prefill_ms = 0.0
+            orig_forward = self.model.forward
+
+            def _get_llm_submodule(maybe_conditional):
+                backbone = getattr(maybe_conditional, "model", None)
+                if backbone is None:
+                    return None
+                for name in ("model", "language_model", "llm"):
+                    sub = getattr(backbone, name, None)
+                    if sub is not None and callable(getattr(sub, "forward", None)):
+                        return sub
+                return None
+
+            def _timed_forward(*f_args, **f_kwargs):
+                nonlocal prefill_ms, decode_ms, forward_calls
+                # Transformers' generate() can pass a non-None cache object even for the
+                # very first (prefill) forward. Use "first forward call" as the most
+                # robust discriminator.
+                is_prefill = forward_calls == 0
+                if torch.cuda.is_available():
+                    start = torch.cuda.Event(enable_timing=True)
+                    end = torch.cuda.Event(enable_timing=True)
+                    torch.cuda.synchronize()
+                    start.record()
+                    llm_sub = _get_llm_submodule(self.model)
+                    if is_prefill and llm_sub is not None:
+                        orig_llm_forward = llm_sub.forward
+
+                        def _timed_llm_forward(*lm_args, **lm_kwargs):
+                            nonlocal llm_prefill_ms
+                            s = torch.cuda.Event(enable_timing=True)
+                            e = torch.cuda.Event(enable_timing=True)
+                            torch.cuda.synchronize()
+                            s.record()
+                            o = orig_llm_forward(*lm_args, **lm_kwargs)
+                            e.record()
+                            torch.cuda.synchronize()
+                            llm_prefill_ms += s.elapsed_time(e)
+                            return o
+
+                        try:
+                            llm_sub.forward = _timed_llm_forward
+                            out = orig_forward(*f_args, **f_kwargs)
+                        finally:
+                            llm_sub.forward = orig_llm_forward
+                    else:
+                        out = orig_forward(*f_args, **f_kwargs)
+                    end.record()
+                    torch.cuda.synchronize()
+                    elapsed = start.elapsed_time(end)
+                else:
+                    t0 = time.time()
+                    out = orig_forward(*f_args, **f_kwargs)
+                    elapsed = (time.time() - t0) * 1000.0
+                if is_prefill:
+                    prefill_ms += elapsed
+                else:
+                    decode_ms += elapsed
+                forward_calls += 1
+                return out
+
+            try:
+                self.model.forward = _timed_forward
+                cont = self.model.generate(
+                    **inputs,
+                    eos_token_id=self.tokenizer.eos_token_id,
+                    pad_token_id=pad_token_id,
+                    do_sample=current_gen_kwargs["do_sample"],
+                    temperature=current_gen_kwargs["temperature"],
+                    top_p=current_gen_kwargs["top_p"],
+                    num_beams=current_gen_kwargs["num_beams"],
+                    max_new_tokens=current_gen_kwargs["max_new_tokens"],
+                    top_k=current_gen_kwargs.get("top_k", None),
+                    use_cache=self.use_cache,
+                )
+            finally:
+                self.model.forward = orig_forward
+
+            if torch.cuda.is_available():
+                gen_end_event.record()
+                torch.cuda.synchronize()
+                gen_time = gen_start_event.elapsed_time(gen_end_event) / 1000.0
+                gen_max_mem = torch.cuda.max_memory_allocated() / 1024 / 1024
+                self.total_cuda_time += gen_time
+                self.max_mem = max(gen_max_mem, self.max_mem)
+            end_time = time.time()
+            if print_per_sample_timing:
+                eval_logger.info(
+                    f"[Timing] prefill_ms={prefill_ms:.2f} decode_ms={decode_ms:.2f} total_ms={prefill_ms + decode_ms:.2f}"
+                )
+            total_prefill_ms += prefill_ms
+            total_decode_ms += decode_ms
+            self.timing_total_prefill_ms += prefill_ms
+            self.timing_total_decode_ms += decode_ms
+            self.timing_llm_prefill_ms += llm_prefill_ms
+
+            generated_ids_trimmed = [out_ids[len(in_ids) :] for in_ids, out_ids in zip(inputs.input_ids, cont)]
+            answers = self.processor.batch_decode(generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+
+            # Calculate timing metrics for batch
+            e2e_latency += end_time - start_time
+            total_tokens += sum(len(ids) for ids in generated_ids_trimmed)
+
+            for ans, context in zip(answers, texts):
+                clean_ans = parse_reasoning_model_answer(ans)
+                res.append(clean_ans)
+                self.cache_hook.add_partial("generate_until", (context, gen_kwargs), clean_ans)
+                pbar.update(1)
+
+                eval_logger.debug(f"Question: {context}")
+                eval_logger.debug(f"Model Raw Response: {ans}")
+                eval_logger.debug(f"Model Clean Response: {clean_ans}")
+            # reorder this group of results back to original unsorted form
+        res = re_ords.get_original(res)
+
+        # Calculate average speed
+        avg_speed = total_tokens / e2e_latency if e2e_latency > 0 else 0
+        # Log metrics
+        metric_dict = {
+            "total_tokens": total_tokens,
+            "e2e_latency": e2e_latency,
+            "avg_speed": avg_speed,
+            "additional_metrics": {
+                "rank": self.rank,
+            },
+        }
+        log_metrics(**metric_dict)
+
+        pbar.close()
+        if self.rank == 0:
+            wall_time = time.time() - wall_start
+            prefill_s = total_prefill_ms / 1000.0
+            decode_s = total_decode_ms / 1000.0
+            if print_model_efficiency:
+                table = _format_efficiency_table(
+                    [
+                        ("LLM_time_s", f"{self.total_cuda_time:.3f}"),
+                        ("Prefill_time_s", f"{prefill_s:.3f}"),
+                        ("Decode_time_s", f"{decode_s:.3f}"),
+                        ("Total_time_s", f"{wall_time:.3f}"),
+                        ("Peak_mem_MB", f"{self.max_mem:.1f}"),
+                    ]
+                )
+                print(table, flush=True)
+        return res
