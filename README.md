@@ -28,6 +28,18 @@
   <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
 </p>
 
+<p>
+  <a href="https://arxiv.org/pdf/2603.27650">
+    <img src="https://img.shields.io/badge/Paper-PDF-222222?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF">
+  </a>
+  <a href="https://arxiv.org/abs/2603.27650">
+    <img src="https://img.shields.io/badge/arXiv-2603.27650-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv">
+  </a>
+  <a href="https://github.com/xinyouu/V-CAST">
+    <img src="https://img.shields.io/badge/Code-GitHub-111111?style=for-the-badge&logo=github&logoColor=white" alt="Code">
+  </a>
+</p>
+
 </div>
 
 <div align="center">
