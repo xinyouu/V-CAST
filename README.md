@@ -13,7 +13,7 @@
 </h3>
 
 <p>
-  <sup>1</sup> Shenzhen Campus of Sun Yat-sen University
+  <sup>1</sup> Sun Yat-sen University Shenzhen Campus 
   &nbsp;&nbsp;
   <sup>2</sup> Shenzhen Loop Area Institute
 </p>
