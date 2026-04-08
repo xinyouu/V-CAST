@@ -1,4 +1,3 @@
-import os
 from typing import Any, List, Optional, Union
 
 import torch
@@ -144,31 +143,6 @@ def _v_cast_compress_frames(
         min_k=min_k,
         max_k=tokens_per_frame,
     )
-
-    if _v_cast_print():
-        total_keep = int(k_t.sum().item())
-        total_tokens = int(t * tokens_per_frame)
-        ratio = float(total_keep) / float(total_tokens) if total_tokens > 0 else 0.0
-        tag_str = f"{tag} " if tag else ""
-        qid = os.environ.get("QWEN3VL_CUR_QUESTION_ID", "na")
-        vid = os.environ.get("QWEN3VL_CUR_VIDEO_ID", "na")
-        k_list = k_t.tolist()
-        ratio_list = [f"{k / float(tokens_per_frame):.4f}" for k in k_list]
-        curv_min = float(curvature.min().item()) if curvature.numel() > 0 else 0.0
-        curv_mean = float(curvature.mean().item()) if curvature.numel() > 0 else 0.0
-        curv_max = float(curvature.max().item()) if curvature.numel() > 0 else 0.0
-        w_min = float(weights.min().item()) if weights.numel() > 0 else 0.0
-        w_mean = float(weights.mean().item()) if weights.numel() > 0 else 0.0
-        w_max = float(weights.max().item()) if weights.numel() > 0 else 0.0
-        print(
-            f"[V-CAST] {tag_str}frames={t} tokens/frame={tokens_per_frame} retain_ratio={retain_ratio} "
-            f"keep={total_keep}/{total_tokens} ({ratio:.4f})"
-        )
-        print(f"[V-CAST] {tag_str}budget=curvature/softmax@0.7 score=hybrid keep_ends=False")
-        print(f"[V-CAST] {tag_str}curvature[min,mean,max]=[{curv_min:.4f},{curv_mean:.4f},{curv_max:.4f}]")
-        print(f"[V-CAST] {tag_str}weight[min,mean,max]=[{w_min:.4f},{w_mean:.4f},{w_max:.4f}]")
-        print(f"[V-CAST] qid={qid} video_id={vid} {tag_str}frame_keep={k_list}")
-        print(f"[V-CAST] qid={qid} video_id={vid} {tag_str}frame_ratio={ratio_list}")
 
     tokens_out = []
     keep_indices = []

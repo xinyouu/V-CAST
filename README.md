@@ -1,61 +1,22 @@
-<div align="center">
+# ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
 
-<h1>
-  ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
-</h1>
+### [Xinying Lin](https://github.com/xinyouu)1,2, [Xuyang Liu](https://github.com/xuyang-liu16)3,†, [Yiyu Wang](https://github.com/lern-to-write)4, [Teng Ma](https://github.com/MaTengSYSU)1, [Wenqi Ren](https://rwenqi.github.io)1,2,✉
 
-<h3>
-  <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
-  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3,&dagger;</sup>,
-  <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
-  <a href="https://github.com/MaTengSYSU">Teng Ma</a><sup>1</sup>,
-  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2,✉</sup>
-</h3>
+1 Shenzhen Campus of Sun Yat-sen University    2 Shenzhen Loop Area Institute
 
-<p>
-  <sup>1</sup> Shenzhen Campus of Sun Yat-sen University
-  &nbsp;&nbsp;
-  <sup>2</sup> Shenzhen Loop Area Institute
-</p>
-<p>
-  <sup>3</sup> Sichuan University
-  &nbsp;&nbsp;
-  <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
-</p>
+3 Sichuan University    4 EPIC Lab, Shanghai Jiao Tong University
 
-
-<p>
-  <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
-</p>
-
-<p>
-  <a href="https://arxiv.org/pdf/2603.27650">
-    <img src="https://img.shields.io/badge/Paper-PDF-222222?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF">
-  </a>
-  <a href="https://arxiv.org/abs/2603.27650">
-    <img src="https://img.shields.io/badge/arXiv-2603.27650-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv">
-  </a>
-  <a href="https://github.com/xinyouu/V-CAST">
-    <img src="https://img.shields.io/badge/Code-GitHub-111111?style=for-the-badge&logo=github&logoColor=white" alt="Code">
-  </a>
-</p>
-
-</div>
-
-<div align="center">
-</div>
+*⚡ A training-free and plug-and-play **Curvature-Aware** Spatio-Temporal pruning framework for efficient long-context video inference.*
 
 ---
 
 ## 🔥 News
 
-- **`2026.03.26`** We opened the V-CAST repository.
+- `**2026.03.26`** We opened the V-CAST repository.
+
 ---
 
 ## 🎯 Highlights
-<p align="center">
-  <img src="images/teaser.png" width="980" alt="V-CAST teaser">
-</p>
 
 - **Curvature-aware spatio-temporal pruning:** V-CAST allocates temporal budget according to video curvature and performs coordinate-preserving spatial pruning.
 - **Training-free and plug-and-play:** V-CAST can be integrated into VideoLLMs without retraining.
@@ -72,10 +33,6 @@ V-CAST is a training-free and plug-and-play curvature-aware spatio-temporal prun
 - **Coordinate-preserving spatial pruning** to retain informative tokens without breaking the original `(t, h, w)` grid.
 - **Compatibility with VideoLLMs** through a clean pruning-based design that avoids token merging drift.
 
-<p align="center">
-  <img src="images/overview.png" width="920" alt="V-CAST overview">
-</p>
-
 ---
 
 ## 🛠 Preparation
@@ -87,7 +44,7 @@ git clone https://github.com/xinyouu/V-CAST.git
 cd V-CAST
 ```
 
-2. Create the environment:
+1. Create the environment:
 
 ```bash
 conda create -n vcast python=3.10 -y
@@ -102,28 +59,34 @@ pip install -e .
 
 The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default.
 
+We support the following model families in our internal codebase. The current public release focuses on **Qwen3-VL**, and additional V-CAST code releases are being organized below.
+
+
+| Model Base      | Status         | Code Path                                                                                          |
+| --------------- | -------------- | -------------------------------------------------------------------------------------------------- |
+| Qwen3-VL        | ✅ Released     | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)` |
+| Qwen2.5-Omni    | 🚧 Coming Soon | -                                                                                                  |
+| Qwen3-VL Omni   | 🚧 Coming Soon | -                                                                                                  |
+| LLaVA-OneVision | 🚧 Coming Soon | -                                                                                                  |
+| LLaVA-Video     | 🚧 Coming Soon | -                                                                                                  |
+
+
 ### Quick Start
 
 ```bash
 bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 ```
 
-### Current Public Evaluation Targets
-
-- `mlvu_dev`
-- `mvbench`
-- `videomme`
-- `egoschema`
-- `longvideobench_val_v`
-
 ### Core Public Paths
 
-| Component | Path |
-| --- | --- |
-| V-CAST wrapper | [`compressor/v_cast/main.py`](./compressor/v_cast/main.py) |
-| V-CAST core implementation | [`compressor/v_cast/modeling_qwen3_vl_v_cast.py`](./compressor/v_cast/modeling_qwen3_vl_v_cast.py) |
-| Qwen3-VL evaluation wrapper | [`lmms_eval/models/simple/qwen3_vl.py`](./lmms_eval/models/simple/qwen3_vl.py) |
-| Example script | [`examples/v_cast/inference_qwen3vl_v_cast_64.sh`](./examples/v_cast/inference_qwen3vl_v_cast_64.sh) |
+
+| Component                   | Path                                                                                                 |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| V-CAST wrapper              | `[compressor/v_cast/main.py](./compressor/v_cast/main.py)`                                           |
+| V-CAST core implementation  | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)`   |
+| Qwen3-VL evaluation wrapper | `[lmms_eval/models/simple/qwen3_vl.py](./lmms_eval/models/simple/qwen3_vl.py)`                       |
+| Example script              | `[examples/v_cast/inference_qwen3vl_v_cast_64.sh](./examples/v_cast/inference_qwen3vl_v_cast_64.sh)` |
+
 
 ---
 
@@ -132,21 +95,23 @@ bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 If you find this repository useful, please cite:
 
 ```bibtex
-@misc{lin2026vcast,
+@article{lin2026v,
   title={V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models},
-  author={Xinying Lin and Xuyang Liu and Yiyu Wang and Teng Ma and Wenqi Ren},
-  year={2026},
-  howpublished={\url{https://github.com/xinyouu/V-CAST}}
+  author={Lin, Xinying and Liu, Xuyang and Wang, Yiyu and Ma, Teng and Ren, Wenqi},
+  journal={arXiv preprint arXiv:2603.27650},
+  year={2026}
 }
 ```
 
 ---
 
-
 ## 👍 Acknowledgment
-We extend our gratitude to the open-source efforts of [LLaVA-OneVision](https://github.com/LLaVA-VL/LLaVA-NeXT) and [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL).
+
+We extend our gratitude to the open-source efforts of [LLaVA-OneVision](https://github.com/LLaVA-VL/LLaVA-NeXT)and [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL).
 
 ---
 
 ## 📩 Contact
+
 For any question about our paper or code, please email `xinyinglin@slai.edu.cn`.
+`<div align="center">`
