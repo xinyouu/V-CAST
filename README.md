@@ -82,11 +82,32 @@ pip install -e .
 ## 🚀 Performance Evaluation
 
 
-| Model Base                    | Status         | Code Path                                                                                          |
-| ----------------------------- | -------------- | -------------------------------------------------------------------------------------------------- |
-| Qwen3-VL                      | ✅ Released     | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)` |
-| LLaVA-OneVision / LLaVA-Video | 🚧 Coming Soon | -                                                                                                  |
-| Qwen2.5-Omni / Qwen3-Omni     | 🚧 Coming Soon | -                                                                                                  |
+<table>
+  <thead>
+    <tr>
+      <th align="left">Model Base</th>
+      <th align="left" width="22%">Status</th>
+      <th align="left">Code Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Qwen3-VL</td>
+      <td>✅ Released</td>
+      <td><a href="./compressor/v_cast/modeling_qwen3_vl_v_cast.py"><code>compressor/v_cast/modeling_qwen3_vl_v_cast.py</code></a></td>
+    </tr>
+    <tr>
+      <td>LLaVA-OneVision / LLaVA-Video</td>
+      <td>🚧 Planned</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Qwen2.5-Omni / Qwen3-Omni</td>
+      <td>🚧 Planned</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
 
 
 The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default.
@@ -100,12 +121,32 @@ bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 ### Core Public Paths
 
 
-| Component                   | Path                                                                                                 |
-| --------------------------- | ---------------------------------------------------------------------------------------------------- |
-| V-CAST wrapper              | `[compressor/v_cast/main.py](./compressor/v_cast/main.py)`                                           |
-| V-CAST core implementation  | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)`   |
-| Qwen3-VL evaluation wrapper | `[lmms_eval/models/simple/qwen3_vl.py](./lmms_eval/models/simple/qwen3_vl.py)`                       |
-| Example script              | `[examples/v_cast/inference_qwen3vl_v_cast_64.sh](./examples/v_cast/inference_qwen3vl_v_cast_64.sh)` |
+<table>
+  <thead>
+    <tr>
+      <th align="left">Component</th>
+      <th align="left">Path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>V-CAST wrapper</td>
+      <td><a href="./compressor/v_cast/main.py"><code>compressor/v_cast/main.py</code></a></td>
+    </tr>
+    <tr>
+      <td>V-CAST core implementation</td>
+      <td><a href="./compressor/v_cast/modeling_qwen3_vl_v_cast.py"><code>compressor/v_cast/modeling_qwen3_vl_v_cast.py</code></a></td>
+    </tr>
+    <tr>
+      <td>Qwen3-VL evaluation wrapper</td>
+      <td><a href="./lmms_eval/models/simple/qwen3_vl.py"><code>lmms_eval/models/simple/qwen3_vl.py</code></a></td>
+    </tr>
+    <tr>
+      <td>Example script</td>
+      <td><a href="./examples/v_cast/inference_qwen3vl_v_cast_64.sh"><code>examples/v_cast/inference_qwen3vl_v_cast_64.sh</code></a></td>
+    </tr>
+  </tbody>
+</table>
 
 
 ---
