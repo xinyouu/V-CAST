@@ -1,19 +1,43 @@
-# ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
+<div align="center">
 
-### [Xinying Lin](https://github.com/xinyouu)1,2, [Xuyang Liu](https://github.com/xuyang-liu16)3,†, [Yiyu Wang](https://github.com/lern-to-write)4, [Teng Ma](https://github.com/MaTengSYSU)1, [Wenqi Ren](https://rwenqi.github.io)1,2,✉
+<h1>
+  ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
+</h1>
 
-1 Shenzhen Campus of Sun Yat-sen University    2 Shenzhen Loop Area Institute
+<h3>
+  <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
+  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3,&dagger;</sup>,
+  <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
+  <a href="https://github.com/MaTengSYSU">Teng Ma</a><sup>1</sup>,
+  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2,✉</sup>
+</h3>
 
-3 Sichuan University    4 EPIC Lab, Shanghai Jiao Tong University
+<p>
+  <sup>1</sup> Shenzhen Campus of Sun Yat-sen University
+  &nbsp;&nbsp;
+  <sup>2</sup> Shenzhen Loop Area Institute
+</p>
+<p>
+  <sup>3</sup> Sichuan University
+  &nbsp;&nbsp;
+  <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
+</p>
 
-*⚡ A training-free and plug-and-play **Curvature-Aware** Spatio-Temporal pruning framework for efficient long-context video inference.*
+
+<p>
+  <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
+</p>
+
+</div>
+
+<div align="center">
+</div>
 
 ---
 
 ## 🔥 News
 
 - **`2026.03.26`** We opened the V-CAST repository.
-
 ---
 
 ## 🎯 Highlights
@@ -57,19 +81,15 @@ pip install -e .
 
 ## 🚀 Performance Evaluation
 
+
+| Model Base                    | Status         | Code Path                                                                                          |
+| ----------------------------- | -------------- | -------------------------------------------------------------------------------------------------- |
+| Qwen3-VL                      | ✅ Released     | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)` |
+| LLaVA-OneVision / LLaVA-Video | 🚧 Coming Soon | -                                                                                                  |
+| Qwen2.5-Omni / Qwen3-Omni     | 🚧 Coming Soon | -                                                                                                  |
+
+
 The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default.
-
-We support the following model families in our internal codebase. The current public release focuses on **Qwen3-VL**, and additional V-CAST code releases are being organized below.
-
-
-| Model Base      | Status         | Code Path                                                                                          |
-| --------------- | -------------- | -------------------------------------------------------------------------------------------------- |
-| Qwen3-VL        | ✅ Released     | `[compressor/v_cast/modeling_qwen3_vl_v_cast.py](./compressor/v_cast/modeling_qwen3_vl_v_cast.py)` |
-| Qwen2.5-Omni    | 🚧 Coming Soon | -                                                                                                  |
-| Qwen3-VL Omni   | 🚧 Coming Soon | -                                                                                                  |
-| LLaVA-OneVision | 🚧 Coming Soon | -                                                                                                  |
-| LLaVA-Video     | 🚧 Coming Soon | -                                                                                                  |
-
 
 ### Quick Start
 
@@ -107,11 +127,10 @@ If you find this repository useful, please cite:
 
 ## 👍 Acknowledgment
 
-We extend our gratitude to the open-source efforts of [LLaVA-OneVision](https://github.com/LLaVA-VL/LLaVA-NeXT)and [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL).
+We extend our gratitude to the open-source efforts of [LLaVA-OneVision](https://github.com/LLaVA-VL/LLaVA-NeXT) and [Qwen3-VL](https://github.com/QwenLM/Qwen3-VL).
 
 ---
 
 ## 📩 Contact
 
 For any question about our paper or code, please email `xinyinglin@slai.edu.cn`.
-`<div align="center">`
