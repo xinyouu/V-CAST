@@ -12,7 +12,7 @@
 
 ## 🔥 News
 
-- `**2026.03.26`** We opened the V-CAST repository.
+- **`2026.03.26`** We opened the V-CAST repository.
 
 ---
 
