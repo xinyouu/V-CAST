@@ -1,46 +1,26 @@
-<div align="center">
+# ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
 
-<h1>
-  ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
-</h1>
+### [Xinying Lin](https://github.com/xinyouu)1,2, [Xuyang Liu](https://github.com/xuyang-liu16)3,†, [Yiyu Wang](https://github.com/lern-to-write)4, [Teng Ma](https://github.com/MaTengSYSU)1, [Wenqi Ren](https://rwenqi.github.io)1,2,✉
 
-<h3>
-  <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
-  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3,&dagger;</sup>,
-  <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
-  <a href="https://github.com/MaTengSYSU">Teng Ma</a><sup>1</sup>,
-  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2,✉</sup>
-</h3>
+1 Shenzhen Campus of Sun Yat-sen University    2 Shenzhen Loop Area Institute
 
-<p>
-  <sup>1</sup> Sun Yat-sen University Shenzhen Campus 
-  &nbsp;&nbsp;
-  <sup>2</sup> Shenzhen Loop Area Institute
-</p>
-<p>
-  <sup>3</sup> Sichuan University
-  &nbsp;&nbsp;
-  <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
-</p>
+3 Sichuan University    4 EPIC Lab, Shanghai Jiao Tong University
 
-
-<p>
-  <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
-</p>
-
-</div>
-
-<div align="center">
-</div>
+*⚡ A training-free and plug-and-play **Curvature-Aware** Spatio-Temporal pruning framework for efficient long-context video inference.*
 
 ---
 
 ## 🔥 News
 
-- **`2026.03.26`** We opened the V-CAST repository.
+- `**2026.03.26`** We opened the V-CAST repository.
+
 ---
 
 ## 🎯 Highlights
+
+<p align="center">
+  <img src="images/teaser.png" width="980" alt="V-CAST teaser">
+</p>
 
 - **Curvature-aware spatio-temporal pruning:** V-CAST allocates temporal budget according to video curvature and performs coordinate-preserving spatial pruning.
 - **Training-free and plug-and-play:** V-CAST can be integrated into VideoLLMs without retraining.
@@ -57,6 +37,10 @@ V-CAST is a training-free and plug-and-play curvature-aware spatio-temporal prun
 - **Coordinate-preserving spatial pruning** to retain informative tokens without breaking the original `(t, h, w)` grid.
 - **Compatibility with VideoLLMs** through a clean pruning-based design that avoids token merging drift.
 
+<p align="center">
+  <img src="images/overview.png" width="920" alt="V-CAST overview">
+</p>
+
 ---
 
 ## 🛠 Preparation
@@ -68,13 +52,26 @@ git clone https://github.com/xinyouu/V-CAST.git
 cd V-CAST
 ```
 
-1. Create the environment:
+2. Create the environment:
 
 ```bash
 conda create -n vcast python=3.10 -y
 conda activate vcast
 pip install --upgrade pip
+pip install -e ".[train]"
+```
+
+3. Install lmms-eval:
+
+If you want to measure the latency and GPU memory, please use the custom installation.
+```Shell
+cd lmms-eval
 pip install -e .
+
+```
+Or you can also use the official installation.
+```Shell
+pip install git+https://github.com/EvolvingLMMs-Lab/lmms-eval.git
 ```
 
 ---
@@ -82,35 +79,13 @@ pip install -e .
 ## 🚀 Performance Evaluation
 
 
-<table>
-  <thead>
-    <tr>
-      <th align="left">Model Base</th>
-      <th align="left" width="22%">Status</th>
-      <th align="left">Code Path</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Qwen3-VL</td>
-      <td>✅ Released</td>
-      <td><a href="./compressor/v_cast/modeling_qwen3_vl_v_cast.py"><code>compressor/v_cast/modeling_qwen3_vl_v_cast.py</code></a></td>
-    </tr>
-    <tr>
-      <td>LLaVA-OneVision / LLaVA-Video</td>
-      <td>🚧 Planned</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>Qwen2.5-Omni / Qwen3-Omni</td>
-      <td>🚧 Planned</td>
-      <td>-</td>
-    </tr>
-  </tbody>
-</table>
+| Model Base                    | Status     | Code Path                                       |
+| ----------------------------- | ---------- | ----------------------------------------------- |
+| Qwen3-VL                      | ✅ Released | `compressor/v_cast/modeling_qwen3_vl_v_cast.py` |
+| LLaVA-OneVision / LLaVA-Video | 🚧 Planned | -                                               |
+| Qwen2.5-Omni / Qwen3-Omni     | 🚧 Planned | -                                               |
 
-
-The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default.
+Our evaluation pipeline is built on top of [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval), a unified toolkit for multimodal evaluation across text, image, video, and audio tasks. The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default, while additional model-family integrations will be released in follow-up updates.
 
 ### Quick Start
 
@@ -121,32 +96,12 @@ bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 ### Core Public Paths
 
 
-<table>
-  <thead>
-    <tr>
-      <th align="left">Component</th>
-      <th align="left">Path</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>V-CAST wrapper</td>
-      <td><a href="./compressor/v_cast/main.py"><code>compressor/v_cast/main.py</code></a></td>
-    </tr>
-    <tr>
-      <td>V-CAST core implementation</td>
-      <td><a href="./compressor/v_cast/modeling_qwen3_vl_v_cast.py"><code>compressor/v_cast/modeling_qwen3_vl_v_cast.py</code></a></td>
-    </tr>
-    <tr>
-      <td>Qwen3-VL evaluation wrapper</td>
-      <td><a href="./lmms_eval/models/simple/qwen3_vl.py"><code>lmms_eval/models/simple/qwen3_vl.py</code></a></td>
-    </tr>
-    <tr>
-      <td>Example script</td>
-      <td><a href="./examples/v_cast/inference_qwen3vl_v_cast_64.sh"><code>examples/v_cast/inference_qwen3vl_v_cast_64.sh</code></a></td>
-    </tr>
-  </tbody>
-</table>
+| Component                   | Path                                             |
+| --------------------------- | ------------------------------------------------ |
+| V-CAST wrapper              | `compressor/v_cast/main.py`                      |
+| V-CAST core implementation  | `compressor/v_cast/modeling_qwen3_vl_v_cast.py`  |
+| Qwen3-VL evaluation wrapper | `lmms_eval/models/simple/qwen3_vl.py`            |
+| Example script              | `examples/v_cast/inference_qwen3vl_v_cast_64.sh` |
 
 
 ---
