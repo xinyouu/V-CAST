@@ -28,6 +28,18 @@
   <i>⚡ A training-free and plug-and-play <b>Curvature-Aware</b> Spatio-Temporal pruning framework for efficient long-context video inference.</i>
 </p>
 
+<p>
+  <a href="https://arxiv.org/pdf/2603.27650">
+    <img src="https://img.shields.io/badge/Paper-PDF-222222?style=for-the-badge&logo=adobeacrobatreader&logoColor=white" alt="Paper PDF">
+  </a>
+  <a href="https://arxiv.org/abs/2603.27650">
+    <img src="https://img.shields.io/badge/arXiv-2603.27650-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv">
+  </a>
+  <a href="https://github.com/xinyouu/V-CAST">
+    <img src="https://img.shields.io/badge/Code-GitHub-111111?style=for-the-badge&logo=github&logoColor=white" alt="Code">
+  </a>
+</p>
+
 </div>
 
 <div align="center">
@@ -110,7 +122,7 @@ pip install git+https://github.com/EvolvingLMMs-Lab/lmms-eval.git
 | LLaVA-OneVision / LLaVA-Video | 🚧 Planned | -                                               |
 | Qwen2.5-Omni / Qwen3-Omni     | 🚧 Planned | -                                               |
 
-Our evaluation pipeline is built on top of [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval), a unified toolkit for multimodal evaluation across text, image, video, and audio tasks. The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default, while additional model-family integrations will be released in follow-up updates.
+Our evaluation pipeline is built on top of [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval), a unified toolkit for multimodal evaluation across text, image, video, and audio tasks. The current public release focuses on the **Qwen3-VL** evaluation path with **V-CAST** enabled by default, while additional model-family integrations will be released in follow-up updates. Some comparison baselines are also available in the open-source [VidCom2](https://github.com/xuyang-liu16/VidCom2) repository.
 
 ### Quick Start
 
@@ -136,7 +148,7 @@ bash examples/v_cast/inference_qwen3vl_v_cast_64.sh
 If you find this repository useful, please cite:
 
 ```bibtex
-@article{lin2026v,
+@article{lin2026vcast,
   title={V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models},
   author={Lin, Xinying and Liu, Xuyang and Wang, Yiyu and Ma, Teng and Ren, Wenqi},
   journal={arXiv preprint arXiv:2603.27650},
