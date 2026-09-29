@@ -51,7 +51,7 @@
 
 ## 🔥 News
 
-- **`2026.09.25`** 🎉🎉 Our [V-CAST](https://arxiv.org/abs/2603.27650) paper has been accepted to **NeurIPS 2026**!
+- **`2026.09.25`** 🎉🎉 Our [V-CAST](https://arxiv.org/abs/2603.27650) has been accepted to **NeurIPS 2026**!
 - **`2026.03.26`** 🤗🤗 We opened the V-CAST repository.
 ---
 
