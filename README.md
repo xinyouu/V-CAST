@@ -4,7 +4,7 @@
   ✂️ V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models
 </h1>
 
-<h3>
+<h4>
   <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
   <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3</sup>,
   <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
@@ -12,7 +12,7 @@
   Jiasheng Li<sup>4</sup>,
   <a href="https://github.com/ZichenWen1">Zichen Wen</a><sup>4</sup>,
   <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2</sup>
-</h3>
+</h4>
 
 <p>
   <sup>1</sup> Sun Yat-sen University Shenzhen Campus 
@@ -22,7 +22,7 @@
 <p>
   <sup>3</sup> Sichuan University
   &nbsp;&nbsp;
-  <sup>4</sup> EPIC Lab, Shanghai Jiao Tong University
+  <sup>4</sup> Shanghai Jiao Tong University
 </p>
 
 
