@@ -6,10 +6,12 @@
 
 <h3>
   <a href="https://github.com/xinyouu">Xinying Lin</a><sup>1,2</sup>,
-  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3,&dagger;</sup>,
+  <a href="https://github.com/xuyang-liu16">Xuyang Liu</a><sup>3</sup>,
   <a href="https://github.com/lern-to-write">Yiyu Wang</a><sup>4</sup>,
   <a href="https://github.com/MaTengSYSU">Teng Ma</a><sup>1</sup>,
-  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2,✉</sup>
+  Jiasheng Li<sup>4</sup>,
+  <a href="https://github.com/ZichenWen1">Zichen Wen</a><sup>4</sup>,
+  <a href="https://rwenqi.github.io">Wenqi Ren</a><sup>1,2</sup>
 </h3>
 
 <p>
