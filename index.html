@@ -6,7 +6,7 @@
   <meta name="title" content="V-CAST: Video Curvature-Aware Spatio-Temporal Pruning for Efficient Video Large Language Models">
   <meta name="description" content="V-CAST is a training-free and plug-and-play token pruning framework for efficient long-context video inference.">
   <meta name="keywords" content="V-CAST, VideoLLM, token pruning, Qwen3-VL, long video">
-  <meta name="author" content="Xinying Lin, Xuyang Liu, Yiyu Wang, Teng Ma, Wenqi Ren">
+  <meta name="author" content="Xinying Lin, Xuyang Liu, Yiyu Wang, Teng Ma, Jiasheng Li, Zichen Wen, Wenqi Ren">
   <meta name="robots" content="index, follow">
 
   <meta property="og:type" content="article">
@@ -73,8 +73,7 @@
     }
 
     .publication-authors,
-    .publication-affils,
-    .author-note {
+    .publication-affils {
       color: #374151;
       margin-bottom: 0;
       font-weight: 400 !important;
@@ -89,8 +88,7 @@
     }
 
     .publication-authors a,
-    .publication-affils a,
-    .author-note a {
+    .publication-affils a {
       color: #5f7fae !important;
       text-decoration: none !important;
       font-weight: 400 !important;
@@ -98,8 +96,7 @@
     }
 
     .publication-authors a:hover,
-    .publication-affils a:hover,
-    .author-note a:hover {
+    .publication-affils a:hover {
       color: #476792 !important;
       opacity: 1;
     }
@@ -152,11 +149,6 @@
       color: #fff;
     }
 
-    .author-note {
-      margin-top: 0.18rem;
-      font-size: 0.95rem;
-    }
-
     .hero-tagline {
       margin-top: 0.48rem;
       font-size: 0.95rem;
@@ -164,10 +156,16 @@
     }
 
     .publication-venue-label {
-      margin-top: 0.4rem;
-      font-size: 1rem;
-      font-weight: 700;
-      color: #1f2937;
+      display: inline-block;
+      margin-top: 0.65rem;
+      padding: 0.22rem 0.75rem;
+      border: 1px solid #d8dde5;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
     }
 
     .section.is-light {
@@ -556,10 +554,12 @@
 
           <div class="is-size-5 publication-authors">
             <span class="author-block"><a href="https://github.com/xinyouu" target="_blank">Xinying Lin</a><sup>1,2</sup>,</span>
-            <span class="author-block"><a href="https://github.com/xuyang-liu16" target="_blank">Xuyang Liu</a><sup>3,&dagger;</sup>,</span>
+            <span class="author-block"><a href="https://github.com/xuyang-liu16" target="_blank">Xuyang Liu</a><sup>3</sup>,</span>
             <span class="author-block"><a href="https://github.com/lern-to-write" target="_blank">Yiyu Wang</a><sup>4</sup>,</span>
             <span class="author-block"><a href="https://github.com/MaTengSYSU" target="_blank">Teng Ma</a><sup>1</sup>,</span>
-            <span class="author-block"><a href="https://rwenqi.github.io" target="_blank">Wenqi Ren</a><sup>1,2,&#9993;</sup></span>
+            <span class="author-block">Jiasheng Li<sup>4</sup>,</span>
+            <span class="author-block">Zichen Wen<sup>4</sup>,</span>
+            <span class="author-block"><a href="https://rwenqi.github.io" target="_blank">Wenqi Ren</a><sup>1,2</sup></span>
           </div>
 
           <div class="is-size-5 publication-affils" style="margin-top:0.15rem;">
@@ -569,7 +569,7 @@
             <span class="author-block"><sup>4</sup> EPIC Lab, Shanghai Jiao Tong University</span>
           </div>
 
-          <p class="author-note"><sup>&dagger;</sup> Project leader: <a href="mailto:seanleo666@gmail.com">seanleo666@gmail.com</a>. <sup>&#9993;</sup> Corresponding author: <a href="mailto:renwq3@mail.sysu.edu.cn">renwq3@mail.sysu.edu.cn</a>.</p>
+          <div class="publication-venue-label">NeurIPS 2026</div>
 
           <div class="publication-links">
             <a href="https://arxiv.org/pdf/2603.27650" class="button is-light" target="_blank" rel="noopener">
@@ -588,7 +588,6 @@
 
           <div class="hero-tagline">
             <i>⚡ A training-free and plug-and-play <strong>curvature-aware</strong> spatio-temporal pruning framework for efficient long-context video inference.</i>
-            <div class="publication-venue-label">NeurIPS 2026</div>
           </div>
         </div>
       </div>
